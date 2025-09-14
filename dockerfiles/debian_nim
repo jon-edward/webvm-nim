@@ -18,7 +18,7 @@ ENV PATH="/usr/local/nim/bin:${PATH}"
 # Add nim syntax highlighting for nano
 RUN mkdir ~/.nano
 RUN wget https://raw.githubusercontent.com/oples/nanorc-nim/master/nim.nanorc -O ~/.nano/nim.nanorc
-RUN echo "include \"/home/user/.nano/nim.nanorc\"" >> ~/.nanorc
+RUN echo "include \"/home/user/.nano/nim.nanorc\"" >> /etc/nanorc
 
 # Remove unnecessary packages
 RUN apt-get -y remove xz-utils
