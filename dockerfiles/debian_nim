@@ -9,7 +9,6 @@ RUN apt-get -y install apt-utils gcc \
 	file luajit make lua5.4 dialog curl wget \
 	less cowsay netcat-openbsd nano xz-utils
 
-
 # Install 32 bit nim from tarball
 ARG NIM_VERSION=2.2.4
 RUN wget -qO- https://nim-lang.org/download/nim-$NIM_VERSION-linux_x32.tar.xz | tar -xJf - -C /usr/local
@@ -19,6 +18,12 @@ ENV PATH="/usr/local/nim/bin:${PATH}"
 # Add nim syntax highlighting for nano
 RUN mkdir ~/.nano
 RUN wget https://raw.githubusercontent.com/oples/nanorc-nim/master/nim.nanorc -O ~/.nano/nim.nanorc
+
+# Remove unnecessary packages
+RUN apt-get -y remove xz-utils
+
+# Clean up apt cache and lists
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
